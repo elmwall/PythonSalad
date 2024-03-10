@@ -9,7 +9,7 @@ Sometimes the time saved is minuscule, or there are softwares or tools online th
 ## Current Salad Content 
 
 ### Image processing tool
-*image_processing.py*
+[*image_processing.py*](https://github.com/elmwall/PythonSalad/blob/main/Tools/image_processing.py)
 
 This is a tool to either crop a series of images in a folder, or convert them to PNG or JPEG format. It then saves the modified images in a new subfolder.
 
@@ -26,7 +26,7 @@ There are also times when there's a sets of images, and one wants to convert all
 
 
 ### Word count
-*word_count.py*
+[*word_count.py*](https://github.com/elmwall/PythonSalad/blob/main/Tools/word_count.py)
 
 This script is for counting lines, words, and characters in a text file.
 
