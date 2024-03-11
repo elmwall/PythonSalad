@@ -1,5 +1,4 @@
 # MODULES
-
 import os
 import sys
 from PIL import Image
@@ -7,11 +6,10 @@ from PIL import Image
 
 
 # FUNCTIONS
-
+# Standard response to input queries
 def queryExit(queryInput):
     if queryInput not in ("1", "2"):
         sys.exit()
-
 
 # Chech whether target file is an image
 def isImage(extension):
@@ -21,7 +19,6 @@ def isImage(extension):
         return True
     else:
         return False
-
 
 # Perform crop and save in a subfolder 
 def main(directory, files, actions, aQ):
@@ -73,20 +70,19 @@ def main(directory, files, actions, aQ):
 
 
 # CLASSES
-
+# Base class
 class Modification:
     def __init__(self):
         # Specify variable names for new folder and message output
         self.folder = ""
         self.statement = ""
 
-
+# Cropping class
 class Crop(Modification):
     def __init__(self):
         super().__init__()
         self.folder = "Cropped images"
         self.statement = "Cropping"
-
 
     def spec(self):
         # Define crop area
@@ -97,7 +93,6 @@ class Crop(Modification):
         print("\nCrop area:", "\n   X:", crop_box[0], "to", crop_box[2], "\n   Y:", crop_box[1], "to", crop_box[3])
 
         return crop_box
-
 
     def action(self, path, crop_box):
         # Convert content to integers
@@ -110,13 +105,12 @@ class Crop(Modification):
         return cropping, False
 
 
-
+# Conversion class
 class Convert(Modification):
     def __init__(self):
         super().__init__()
         self.folder = "Converted images"
         self.statement = "Converting"
-
 
     def spec(self):
         convertQuery = input("Which format would you like to convert to?\n   1) .jpeg\n   2) .png\n   Else) Exit\n\n   Selection: ")
@@ -124,7 +118,6 @@ class Convert(Modification):
         cQ = int(convertQuery) - 1
 
         return cQ
-
 
     def action(self, path, cQ):
         # Conversion info
@@ -141,7 +134,6 @@ class Convert(Modification):
     
 
 # INITIAL ENTRIES
-
 # Create class instances and lists
 cropIt = Crop()
 modIt = Convert()
@@ -159,11 +151,10 @@ files = os.listdir(directory)   # Collect a list of files in stated directory
 
 
 # PERFORM MAIN FUNCTION
-
-# Perform actions
+# Perform modification function with established entries
 output = main(directory, files, actions, actionQuery)
 
-# Error reports
+# End of script, show error reports
 if len(output) > 0:
     print("\nErrors encountered with files:")
     for x in output:

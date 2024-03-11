@@ -9,7 +9,8 @@ Sometimes the time saved is minuscule, or there are softwares or tools online th
 ## Current Salad Content 
 
 ### Image processing tool
-[*image_processing.py*](https://github.com/elmwall/PythonSalad/blob/main/Tools/image_processing.py)
+
+Script: [*image_processing.py*](https://github.com/elmwall/PythonSalad/blob/main/Tools/image_processing.py)
 
 This is a tool to either crop a series of images in a folder, or convert them to PNG or JPEG format. It then saves the modified images in a new subfolder.
 
@@ -19,14 +20,15 @@ It often happens one has a series of screenshots or other images, but only part 
 There are also times when there's a sets of images, and one wants to convert all of them, e.g. to .jpeg to save space. The script can perform this on a batch of images within a folder.
 
 #### Outcome
-- I will actually have great use of this tool. Yes, there are softwares that can do the same thing, but both my need and the script is simple enough that I'll be motivating to use it over looking for other solutions. 
+- I will actually have great use of this tool. Yes, there are softwares that can do the same thing, but both my need and the script is simple enough that it'll be motivating to use it over looking for other solutions. 
 - There's a drawback, that one has to determine the pixels for cropping, although it's only needed once. Therefore it's most useful for a batch of images.
 - Perhaps somewhat overly sophisticated for the functions needed, but it was valuable practice in structuring a script and using functions and classes. It also makes it easier for me to add more functions later on.
 
 
 
 ### Word count
-[*word_count.py*](https://github.com/elmwall/PythonSalad/blob/main/Tools/word_count.py)
+
+Script: [*word_count.py*](https://github.com/elmwall/PythonSalad/blob/main/Tools/word_count.py)
 
 This script is for counting lines, words, and characters in a text file.
 
