@@ -15,17 +15,14 @@ def queryExit(queryInput):
 def isImage(extension):
     # List of accepted extensions
     image_extensions = [".jpg", ".jpeg", ".png", ".gif", ".bmp"]
-    if extension in image_extensions:
-        return True
-    else:
-        return False
+    return extension in image_extensions
 
 # Perform crop and save in a subfolder 
-def main(directory, files, actions, aQ):
-    errors = set()  # Create tuple for storing errors
+def main(directory, files, actions, actionQuery):
+    errors = set()  # Create set for storing errors
 
     # Run class function to obtain required specifications
-    spec = actions[aQ].spec()
+    spec = actions[actionQuery].spec()
 
     # Loop through files in folder
     for file in files:
@@ -36,11 +33,11 @@ def main(directory, files, actions, aQ):
         if isImage(file_extension): # Only perform action for images
             try:
                 # Run class function to obtain info for performing modification
-                modified_img, changeFormat = actions[aQ].action(path, spec)
-                print("\n" + actions[aQ].statement, file)   # Print action performed
+                modified_img, changeFormat = actions[actionQuery].action(path, spec)
+                print("\n" + actions[actionQuery].statement, file)   # Print action performed
                 
                 # Navigate to or create folder
-                new_directory = os.path.join(directory, actions[aQ].folder)
+                new_directory = os.path.join(directory, actions[actionQuery].folder)
                 if not os.path.exists(new_directory):
                     os.makedirs(new_directory)
 
@@ -90,7 +87,8 @@ class Crop(Modification):
         crop_box += " " + input("Please specify end position as: X Y\n   End position: ")
         # Convert to list
         crop_box = crop_box.split()
-        print("\nCrop area:", "\n   X:", crop_box[0], "to", crop_box[2], "\n   Y:", crop_box[1], "to", crop_box[3])
+        # print("\nCrop area:", "\n   X:", crop_box[0], "to", crop_box[2], "\n   Y:", crop_box[1], "to", crop_box[3])
+        print(f"\nCrop area:\n   X: {crop_box[0]} to {crop_box[2]}\n   Y: {crop_box[1]} to {crop_box[3]}")
 
         return crop_box
 
@@ -115,26 +113,26 @@ class Convert(Modification):
     def spec(self):
         convertQuery = input("Which format would you like to convert to?\n   1) .jpeg\n   2) .png\n   Else) Exit\n\n   Selection: ")
         queryExit(convertQuery)
-        cQ = int(convertQuery) - 1
+        convertQuery = int(convertQuery) - 1
 
-        return cQ
+        return convertQuery
 
-    def action(self, path, cQ):
+    def action(self, path, convertQuery):
         # Conversion info
         formatList = ["JPEG", "PNG"]
         colorList = ["RGB", "RGBA"]
         
         # Call for specifik action
         with Image.open(path) as img:
-            convert = img.convert(colorList[cQ])
-        format = formatList[cQ]
+            convert = img.convert(colorList[convertQuery])
+        format = formatList[convertQuery]
         
         return convert, format
     
     
 
 # INITIAL ENTRIES
-# Create class instances and lists
+# Create class instances and tuple of actions
 cropIt = Crop()
 modIt = Convert()
 actions = (cropIt, modIt)
