@@ -18,23 +18,24 @@ import sys
 import webbrowser
 
 
-PATH = "./sight_kit_addendum"
-# SPECIFY BROWSERS AND MODE
-browser_path_incog = "C:/Program Files (x86)/Google/Chrome/Application/chrome.exe %s --incognito"
-browser_path = "C:/Program Files (x86)/Google/Chrome/Application/chrome.exe %s"
+# DIRECTORIES
+KITS_PATH = "./sight_kit_addendum"
+BROWSER_PATH_INCOG = "C:/Program Files (x86)/Google/Chrome/Application/chrome.exe %s --incognito"
+BROWSER_PATH = "C:/Program Files (x86)/Google/Chrome/Application/chrome.exe %s"
 
 
-# FILE DICTIONARY
-# Show all kit files available in library directory.
-files = os.listdir(PATH)
+# REGISTER all kit files available in kit directory.
+files = os.listdir(KITS_PATH)
 file_range = list(range(len(files)))
 files = {str(x+1): files[x] for x in file_range}
 
 
-def main(PATH, files):
+# FUNCTION for processing kit entries into categories.
+def main(PATH, files_list):
+
     # USER INPUT on which file to use. Cancel if non-existent option is selected.
     try:
-        url_file = PATH + "/" + files[input("\nEnter kit file number: ")]
+        url_file = PATH + "/" + files_list[input("\nEnter kit file number: ")]
     except:
         print("Invalid key. Exiting.\n")
         sys.exit()
@@ -42,50 +43,54 @@ def main(PATH, files):
     # EXTRACT URLS
     try:
         with open(url_file, "r") as url_file:
-            all_urls = url_file.read().replace("---standard_mode:", "").split("---softwares")
-            softwares = all_urls[1]
-            all_urls = all_urls[0].split("---incognito_mode:")
+            all_urls = url_file.read().replace("---standard_mode---", "").split("---softwares---")
+            software_urls = all_urls[1]
+            web_urls = all_urls[0].split("---incognito_mode---")
     except:
         print("Error. Invalid file.")
 
-    urls_incog = list(filter(None, all_urls[1].splitlines()))
-    urls = list(filter(None, all_urls[0].splitlines()))
-    softwares = list(filter(None, softwares.splitlines()))
+    incog_urls = list(filter(None, web_urls[1].splitlines()))
+    standard_urls = list(filter(None, web_urls[0].splitlines()))
+    software_urls = list(filter(None, software_urls.splitlines()))
 
-    return urls_incog, urls, softwares
+    return incog_urls, standard_urls, software_urls
+
 
 
 # MAIN FUNCTION
+
+# - COLLECT INFO FOR OPERATION
 print(f"\n\nThere are {len(files)} files availabe:")
-for x, y in files.items():
-    print(" ", x, " ", y)
+for number, file in files.items():
+    print(" ", number, " ", file)
 
-urls_incog, urls, softwares = main(PATH, files)
+web_incog, web_standard, softwares = main(KITS_PATH, files)
 
-
-# PAIR BROWSER AND URL
+# Pair browser and URL
 browser_and_target = {
-    browser_path_incog: urls_incog,
-    browser_path: urls,
+    BROWSER_PATH_INCOG: web_incog,
+    BROWSER_PATH: web_standard,
 }
 
 
+
+# - CONDUCT OPERATION
 # OPEN SOFTWARES
-for software in softwares:
-    print(software)
+for url in softwares:
     try:
-        os.startfile(software)
+        os.startfile(url)
     except:
-        print(f"\nError! Executable could not be accessed from: {software}")
+        print(f"\nError! Executable could not be accessed from: {url}")
 
-# OPEN SITES
-# Pre-open Chrome. Opens start page tab, and also prevents non-responsiveness at startup.
+# BROWSER
+# Pre-open Chrome. Opens start page tab, and also prevents non-responsiveness due to slow startup.
 os.startfile("C:/Program Files (x86)/Google/Chrome/Application/chrome.exe")
+# TO DO: ADD DELAY HERE
 
-
-# OPEN SPECIFIED 
+# OPEN SITES 
 for browser, links in browser_and_target.items():
     webbrowser.get(browser)
     for url in links:
         webbrowser.get(browser).open(url)
+        
 print("\nDone!\n")
