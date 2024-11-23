@@ -42,16 +42,17 @@ def main(PATH, files):
     # EXTRACT URLS
     try:
         with open(url_file, "r") as url_file:
-            all_urls = url_file.read().split("---incognito_mode:")
+            all_urls = url_file.read().replace("---standard_mode:", "").split("---softwares")
+            softwares = all_urls[1]
+            all_urls = all_urls[0].split("---incognito_mode:")
     except:
         print("Error. Invalid file.")
 
-    urls_incog = all_urls[1].splitlines()
-    urls = all_urls[0].splitlines()
-    urls.remove("---standard_mode:")
+    urls_incog = list(filter(None, all_urls[1].splitlines()))
+    urls = list(filter(None, all_urls[0].splitlines()))
+    softwares = list(filter(None, softwares.splitlines()))
 
-    return urls_incog, urls
-
+    return urls_incog, urls, softwares
 
 
 # MAIN FUNCTION
@@ -59,7 +60,7 @@ print(f"\n\nThere are {len(files)} files availabe:")
 for x, y in files.items():
     print(" ", x, " ", y)
 
-urls_incog, urls = main(PATH, files)
+urls_incog, urls, softwares = main(PATH, files)
 
 
 # PAIR BROWSER AND URL
@@ -69,11 +70,20 @@ browser_and_target = {
 }
 
 
+# OPEN SOFTWARES
+for software in softwares:
+    print(software)
+    try:
+        os.startfile(software)
+    except:
+        print(f"\nError! Executable could not be accessed from: {software}")
+
 # OPEN SITES
 # Pre-open Chrome. Opens start page tab, and also prevents non-responsiveness at startup.
 os.startfile("C:/Program Files (x86)/Google/Chrome/Application/chrome.exe")
 
-# OPEN SPECIFIED WEBPAGES
+
+# OPEN SPECIFIED 
 for browser, links in browser_and_target.items():
     webbrowser.get(browser)
     for url in links:
