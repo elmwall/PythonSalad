@@ -1,5 +1,5 @@
-# SIGHT KIT
-# This script opens, in Chrome, a web site kit you want to keep in sight for specific activities or projects.
+# SITE KIT
+# This script opens a kit of web sites (in Chrome) and softwares you need for specific activities or projects. 
 
 # Keep a directory named "sight_kit_addendum" in the same folder as the script. Use separate .txt files for your different web kits.
 # In the text file, paste all relevant web pages, separate them by line breaks, ordered depending on the mode you want to use.
@@ -92,5 +92,6 @@ for browser, links in browser_and_target.items():
     webbrowser.get(browser)
     for url in links:
         webbrowser.get(browser).open(url)
-        
+
 print("\nDone!\n")
+

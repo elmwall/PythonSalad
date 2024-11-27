@@ -1,12 +1,25 @@
 {
-    "screen_sizes": {
-        "main_screen": [2560, 1440],
-        "secondary_screen_1": [1920, 1080],
-        "secondary_screen_2": [0, 0]
-    },
-    "screen_alignment": {
-        "main_screen": ["middle", 0],
-        "secondary_screen_1": ["left", 360],
-        "secondary_screen_2": ["right", 0]
-    }
+    "screens": [
+        {
+            "name": "main",
+            "size_xy": [2560, 1440],
+            "order_x": "middle",
+            "offset_y": 0,
+            "active": true
+        },
+        {
+            "name": "secondary_1",
+            "size_xy": [1920, 1080],
+            "order_x": "left",
+            "offset_y": 360,
+            "active": true
+        },
+        {
+            "name": "secondary_2",
+            "size_xy": [1920, 1080],
+            "order_x": "right",
+            "offset_y": 0,
+            "active": false
+        }
+    ]
 }
