@@ -12,86 +12,177 @@
 
 
 
-# MODULES
 import os
 import sys
 import webbrowser
+import psutil
+import time
+import json
 
 
-# DIRECTORIES
+# Directories
 KITS_PATH = "./sight_kit_addendum"
 BROWSER_PATH_INCOG = "C:/Program Files (x86)/Google/Chrome/Application/chrome.exe %s --incognito"
 BROWSER_PATH = "C:/Program Files (x86)/Google/Chrome/Application/chrome.exe %s"
 
+# Collect profiles
+def load_profiles():
+    with open(KITS_PATH + "/profiles.json", "r") as f:
+        return json.load(f)
 
-# REGISTER all kit files available in kit directory.
-files = os.listdir(KITS_PATH)
-file_range = list(range(len(files)))
-files = {str(x+1): files[x] for x in file_range}
+# Collect resource data
+def load_activities():
+    with open(KITS_PATH + "/resources.json", "r") as f:
+        return json.load(f)
 
-
-# FUNCTION for processing kit entries into categories.
-def main(PATH, files_list):
-
-    # USER INPUT on which file to use. Cancel if non-existent option is selected.
-    try:
-        url_file = PATH + "/" + files_list[input("\nEnter kit file number: ")]
-    except:
-        print("Invalid key. Exiting.\n")
-        sys.exit()
-
-    # EXTRACT URLS
-    try:
-        with open(url_file, "r") as url_file:
-            all_urls = url_file.read().replace("---standard_mode---", "").split("---softwares---")
-            software_urls = all_urls[1]
-            web_urls = all_urls[0].split("---incognito_mode---")
-    except:
-        print("Error. Invalid file.")
-
-    incog_urls = list(filter(None, web_urls[1].splitlines()))
-    standard_urls = list(filter(None, web_urls[0].splitlines()))
-    software_urls = list(filter(None, software_urls.splitlines()))
-
-    return incog_urls, standard_urls, software_urls
+# Ask for profile selection and return corresponding list of resources
+def collect_profile_info(profile_data, selection):
+    profile_options = {str(x+1): profile_data[x].get("name") for x in range(len(profiles))}
+    if selection not in profile_options.keys():
+        return
+    for profile in profile_data:
+        if profile["name"] == profile_options[selection]:
+            return profile.get("accessories")
 
 
 
-# MAIN FUNCTION
+profiles = load_profiles().get("profiles")
+activities = load_activities().get("resources")
 
-# - COLLECT INFO FOR OPERATION
-print(f"\n\nThere are {len(files)} files availabe:")
-for number, file in files.items():
-    print(" ", number, " ", file)
+selection = collect_profile_info(profiles, input("\nSelect profile: "))
+print(selection)
 
-web_incog, web_standard, softwares = main(KITS_PATH, files)
-
-# Pair browser and URL
-browser_and_target = {
-    BROWSER_PATH_INCOG: web_incog,
-    BROWSER_PATH: web_standard,
-}
+# try:
+#     url_file = PATH + "/" + files_list[input("\nEnter kit file number: ")]
+# except:
+#     print("Invalid key. Exiting.\n")
+#     sys.exit()
 
 
 
-# - CONDUCT OPERATION
-# OPEN SOFTWARES
-for url in softwares:
-    try:
-        os.startfile(url)
-    except:
-        print(f"\nError! Executable could not be accessed from: {url}")
+# # REGISTER all kit files available in kit directory.
+# files = os.listdir(KITS_PATH)
+# file_range = list(range(len(files)))
+# files = {str(x+1): files[x] for x in file_range}
 
-# BROWSER
-# Pre-open Chrome. Opens start page tab, and also prevents non-responsiveness due to slow startup.
-os.startfile("C:/Program Files (x86)/Google/Chrome/Application/chrome.exe")
-# TO DO: ADD DELAY HERE
+# proc = list()
+# for process in psutil.process_iter():
+#         try:
+#             # print(process)
+#             # print(process.name(), process.status())
+#             proc.append(process.name())
+#         except (psutil.NoSuchProcess, psutil.AccessDenied):
+#             pass
+# proc.sort()
+# for p in proc:
+#     print(p)
 
-# OPEN SITES 
-for browser, links in browser_and_target.items():
-    webbrowser.get(browser)
-    for url in links:
-        webbrowser.get(browser).open(url)
+# FUNCTIONS
+# already_active = list()
 
-print("\nDone!\n")
+# def process_is_running(process_name):
+#     # already_active = str()
+#     for process in psutil.process_iter():
+#         try:
+#             if process_name.lower() in process.name().lower():
+#                 print(f"{process.name()} is already active.")
+#                 # already_active.append(process.name())
+#                 # already_active += process.name()
+#                 return True
+#         except (psutil.NoSuchProcess, psutil.AccessDenied):
+#             pass
+#     # print(f"{already_active}: already active.")
+#     return False
+# # for p in already_active:
+
+
+# def load_activities():
+#     with open("./sight_kit_addendum/g.json", "r") as f:
+#         return json.load(f)
+
+
+# # Processing kit entries into categories.
+# def main(PATH, files_list):
+#     incog_urls = []
+#     standard_urls = []
+#     software_urls = []
+#     # USER INPUT on which file to use. Cancel if non-existent option is selected.
+#     try:
+#         url_file = PATH + "/" + files_list[input("\nEnter kit file number: ")]
+#     except:
+#         print("Invalid key. Exiting.\n")
+#         sys.exit()
+
+#     # EXTRACT URLS
+#     try:
+#         with open(url_file, "r") as url_file:
+#             all_urls = url_file.read().replace("---standard_mode---", "").split("---softwares---")
+#             software_urls = all_urls[1]
+#             web_urls = all_urls[0].split("---incognito_mode---")
+#     except:
+#         print("Error. Invalid file.")
+
+#     # urls = []
+#     try:
+#         incog_urls = list(filter(None, web_urls[1].splitlines()))
+#     except:
+#         print("No valid url.")
+#     try:
+#         standard_urls = list(filter(None, web_urls[0].splitlines()))
+#     except:
+#         print("No valid url.")
+#     try:
+#         software_urls = list(filter(None, software_urls.splitlines()))
+#     except:
+#         print("No valid url.")
+
+#     return incog_urls, standard_urls, software_urls
+
+
+
+# # MAIN FUNCTION
+
+# # - COLLECT INFO FOR OPERATION
+# print(f"\n\nThere are {len(files)} files availabe:")
+# for number, file in files.items():
+#     print(" ", number, " ", file)
+
+# web_incog, web_standard, softwares = main(KITS_PATH, files)
+
+# # Pair browser and URL
+# browser_and_target = {
+#     BROWSER_PATH_INCOG: web_incog,
+#     BROWSER_PATH: web_standard,
+# }
+
+
+
+# # - CONDUCT OPERATION
+# # OPEN SOFTWARES
+# # if not process_is_running("HYP.exe"):
+# for url in softwares:
+#     try:
+#         os.startfile(url)
+#     except:
+#         print(f"\nError! Executable could not be accessed from: {url}")
+
+# # BROWSER
+# # Pre-open Chrome. Opens start page tab, and also prevents non-responsiveness due to slow startup.
+# if not process_is_running("chrome.exe"):
+#     try:
+#         os.startfile("C:/Program Files (x86)/Google/Chrome/Application/chrome.exe")
+#     except:
+#             print(f"chrome.exe could not be accessed.")
+#     time.sleep(5)
+# # TO DO: ADD DELAY HERE
+
+# # OPEN SITES 
+# for browser, links in browser_and_target.items():
+#     webbrowser.get(browser)
+#     for url in links:
+#         webbrowser.get(browser).open(url)
+
+# print("\nDone!\n")
+
+
 

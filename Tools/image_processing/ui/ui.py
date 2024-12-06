@@ -1,43 +1,62 @@
 import tkinter
 from tkinter import ttk
 
+BACKGROUND_COLOR = "#102520"
+TEXT_COLOR = "#ffffff"
+BUTTON_COLOR = "#308060"
+FONT_STYLE = ("Roboto", 16)
+
+style_settings = {
+    "background_color": "#102520",
+    "text_color": "#ffffff",
+    "button_color": "#308060",
+    "font": ("Roboto", 16)
+}
+style_set = {
+    "Image Processor": "ti"
+}
+
 # WINDOW
 # Provide ui window and basic geometry and appearance settings
 window = tkinter.Tk()   
 window.title("Image Processor")     
 window.geometry("800x600")
-# window.configure(bg="#102520")
+window.configure(bg=BACKGROUND_COLOR)
+
+def settings(window, desc, bgr, fgc, fnt):
+    pass
+# def(key, widget[key][0], widget[key][1], widget[key][2], widget[key][3])
 
 # WIDGETS
 # Title
-title_label = tkinter.Label(window, text="Image Processor")
+title_label = tkinter.Label(window, text="Image Processor", bg=BACKGROUND_COLOR, fg=TEXT_COLOR, font=("Roboto", 26))
 # Settings widgets
-settings_label = tkinter.Label(window, text="Settings")
-settings_action_label = tkinter.Label(window, text="Select action")
+settings_label = tkinter.Label(window, text="Settings", bg=BACKGROUND_COLOR, fg=TEXT_COLOR, font=FONT_STYLE)
+settings_action_label = tkinter.Label(window, text="Select action", bg=BACKGROUND_COLOR, fg=TEXT_COLOR, font=FONT_STYLE)
 # Input widgets
-input_files_label = tkinter.Label(window, text="Select files")
-input_files_entry = tkinter.Entry(window)
-input_files_browse = tkinter.Button(window, text="Browse")
+input_files_label = tkinter.Label(window, text="Select files", bg=BACKGROUND_COLOR, fg=TEXT_COLOR, font=FONT_STYLE)
+input_files_entry = tkinter.Entry(window, font=FONT_STYLE)
+input_files_browse = tkinter.Button(window, text="Browse", bg=BUTTON_COLOR, fg=TEXT_COLOR, font=FONT_STYLE)
 # Crop widgets
-crop_label = tkinter.Label(window, text="Crop")
-crop_screen_label = tkinter.Label(window, text="Select screen")
-crop_area_label = tkinter.Label(window, text="Select area")
+crop_label = tkinter.Label(window, text="Crop", bg=BACKGROUND_COLOR, fg=TEXT_COLOR, font=FONT_STYLE)
+crop_screen_label = tkinter.Label(window, text="Select screen", bg=BACKGROUND_COLOR, fg=TEXT_COLOR, font=FONT_STYLE)
+crop_area_label = tkinter.Label(window, text="Select area", bg=BACKGROUND_COLOR, fg=TEXT_COLOR, font=FONT_STYLE)
 # Convert widgets
-convert_label = tkinter.Label(window, text="Convert")
+convert_label = tkinter.Label(window, text="Convert", bg=BACKGROUND_COLOR, fg=TEXT_COLOR, font=FONT_STYLE)
 # Output widgets
-output_destination_label = tkinter.Label(window, text="Destination")
-output_destination_entry = tkinter.Entry(window)
-output_destination_browse = tkinter.Button(window, text="Browse")
-output_format_label = tkinter.Label(window, text="Select format")
+output_destination_label = tkinter.Label(window, text="Destination", bg=BACKGROUND_COLOR, fg=TEXT_COLOR, font=FONT_STYLE)
+output_destination_entry = tkinter.Entry(window, font=FONT_STYLE)
+output_destination_browse = tkinter.Button(window, text="Browse", bg=BUTTON_COLOR, fg=TEXT_COLOR, font=FONT_STYLE)
+output_format_label = tkinter.Label(window, text="Select format", bg=BACKGROUND_COLOR, fg=TEXT_COLOR, font=FONT_STYLE)
 # Confirm action widget
-run_processing_label = tkinter.Button(window, text="Run")
+run_processing_label = tkinter.Button(window, text="Run", bg=BUTTON_COLOR, fg=TEXT_COLOR, font=FONT_STYLE)
 
 # label = tkinter.Label(window, text="Select files")
 
 
 # WIDGET PLACEMENT
 # Select geometry manager, options are: pack, place, grid
-title_label.grid(row=0, column=0, columnspan=3)
+title_label.grid(row=0, column=0, columnspan=3, sticky="news")
 settings_label.grid(row=1, column=0)
 
 input_files_label.grid(row=2, column=0)
